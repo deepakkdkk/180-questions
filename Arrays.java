@@ -85,38 +85,3 @@ class Solution {
     }
 }
 
-// 2. Pascal's Triangle
-class Solution {
-    public List<List<Integer>> generate(int numRows) {
-        
-        List<List<Integer>> ans = new ArrayList<>();
-        List<Integer> sans = new ArrayList<>();
-        sans.add(1);
-        ans.add(new ArrayList<>(sans));
-        if(numRows == 1){
-            return ans;
-        }
-        sans.add(1);
-        
-        ans.add(new ArrayList<>(sans));
-        if(numRows == 2){
-            return ans;
-        }
-        
-        for(int i = 3; i <= numRows; i++){
-            List<Integer> temp = new ArrayList<>();
-            temp.add(1);
-            for(int j = 1; j <= i - 2; j++){
-                int val1 = ans.get(i - 2).get(j - 1);
-                int val2 = ans.get(i - 2).get(j);
-                int res = val1 + val2;
-                temp.add(res);
-            }
-            temp.add(1);
-            ans.add(temp);
-        }
-        return ans;
-    }
-}
-=======
->>>>>>> 4a0c85f061e547b4a574d469de32de9492ce8971
