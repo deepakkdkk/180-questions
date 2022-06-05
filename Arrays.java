@@ -191,3 +191,27 @@ class Solution {
     }
 }
 
+// 5. Sort Colors (Sort 0,1,2)
+class Solution {
+    public void sortColors(int[] nums) {
+        int i = 0;
+        int mid = 0;
+        int k = nums.length - 1;
+        while(mid <= k){
+            if(nums[mid] == 0){
+                swap(nums, i, mid);
+                mid++;
+                i++;    // before i all are Zeroes
+            }else if(nums[mid] == 2){
+                swap(nums, mid, k);
+                k--;    // after k all are 2's
+            }else{
+                mid++;
+            }
+        }
+    }
+    
+    public void swap(int[] nums, int i, int j){
+        nums[i] = (nums[i] + nums[j]) - (nums[j] = nums[i]);
+    }
+}
