@@ -215,3 +215,65 @@ class Solution {
         nums[i] = (nums[i] + nums[j]) - (nums[j] = nums[i]);
     }
 }
+
+// 6. Best time to buy and sell stock
+class Solution {
+    public int maxProfit(int[] prices) {
+        int min = Integer.MAX_VALUE;
+        int profit = 0;
+        for(int i = 0; i < prices.length; i++){
+            if(prices[i] < min){
+                min = prices[i];
+            }
+            profit = Math.max(profit, prices[i] - min);
+        }
+        return profit;
+    }
+}
+
+// approach 2 using 3D dp
+class Solution {
+    public int maxProfit(int[] prices) {
+        int len = prices.length;
+        int[][][] dp = new int[len + 1][2][2];
+        for (int i = 0; i <= len; i++) {
+            dp[i][0][1] = Integer.MIN_VALUE;
+        }
+        dp[0][1][1] = Integer.MIN_VALUE;
+        for (int i = 1; i <= len; i++) {
+            dp[i][1][0] = Math.max(dp[i - 1][1][0], dp[i - 1][1][1] + prices[i - 1]);
+            dp[i][1][1] = Math.max(dp[i - 1][1][1], dp[i - 1][0][0] - prices[i - 1]);
+        }
+        return dp[len][1][0];
+    }
+}
+
+// approach 3 using array
+class Solution {
+    public int maxProfit(int[] prices) {
+        int len = prices.length;
+        int[] sell = new int[len + 1];
+        int[] buy = new int[len + 1];
+
+        buy[0] = Integer.MIN_VALUE;
+        for (int i = 1; i <= len; i++) {
+            sell[i] = Math.max(sell[i - 1], buy[i - 1] + prices[i - 1]);
+            buy[i] = Math.max(buy[i - 1], -prices[i - 1]);
+        }
+        return sell[len];    
+    }
+}
+
+//approach 4 using constant extra space and meaningful variables
+class Solution {
+    public int maxProfit(int[] prices) {
+         int len = prices.length;
+        int sell = 0;
+        int buy = Integer.MIN_VALUE;
+        for (int ele : prices) {
+            sell = Math.max(sell, buy + ele);
+            buy = Math.max(buy, -ele);
+        }
+        return sell;    
+    }
+}
