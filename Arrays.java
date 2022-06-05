@@ -1,4 +1,6 @@
+// 1. set matrix zeroes
 class Solution {
+    
     public void setZeroes(int[][] matrix) {
         int n = matrix.length;
         int m = matrix[0].length;
@@ -47,6 +49,7 @@ class Solution {
             }
     }
 }
+<<<<<<< HEAD
 
 // 2. Pascal's Triangle
 class Solution {
@@ -115,3 +118,5 @@ class Solution {
         return ans;
     }
 }
+=======
+>>>>>>> 4a0c85f061e547b4a574d469de32de9492ce8971
