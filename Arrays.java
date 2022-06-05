@@ -85,7 +85,63 @@ class Solution {
     }
 }
 
-// 3. Next Permutation
+// 3. Next Permutation 
+// all permutation approach (TLE)
+class Solution {
+    public void nextPermutation(int[] nums) {
+        ArrayList<Integer> snums = new ArrayList<>();
+        for(int i = 0; i < nums.length; i++){
+            snums.add(nums[i]);
+        }
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        ArrayList<Integer> temp = new ArrayList<>();
+        boolean[] freq = new boolean[nums.length];
+        Arrays.sort(nums);
+        helper(nums, ans, temp, freq);
+        System.out.println(ans);
+        for(int i = 0; i < ans.size(); i++){
+            ArrayList<Integer> sans = ans.get(i);
+            if(sans.equals(snums) == true && i != ans.size() - 1){
+                ArrayList<Integer> fans = ans.get(i + 1);
+                for(int j = 0; j < nums.length; j++){
+                    nums[j] = fans.get(j);
+                    
+                }
+                return ;
+            }
+            if(i == ans.size() - 1){
+                ArrayList<Integer> fans = ans.get(0);
+                for(int j = 0; j < nums.length; j++){
+                    nums[j] = fans.get(j);
+                    
+                }
+                return;
+            }
+        }
+        
+    }
+    
+    public void helper(int[] nums, ArrayList<ArrayList<Integer>> ans, ArrayList<Integer> temp,boolean[] freq){
+        if(temp.size() == nums.length){
+         if(ans.contains(temp) == false)
+        ans.add(new ArrayList<>(temp));   
+            return;
+        }
+        
+        for(int i = 0; i < nums.length; i++){
+            if(freq[i] == false){
+                freq[i] = true;
+                temp.add(nums[i]);
+            helper(nums, ans, temp, freq);
+            temp.remove(temp.size() - 1);
+                freq[i] = false;
+            }
+            
+        }
+    }
+}
+
+// Optimal approach
 class Solution {
     public void nextPermutation(int[] nums) {
         for(int i = nums.length - 1; i >= 1; i--){
