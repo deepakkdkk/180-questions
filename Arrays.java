@@ -49,7 +49,7 @@ class Solution {
             }
     }
 }
-<<<<<<< HEAD
+
 
 // 2. Pascal's Triangle
 class Solution {
@@ -82,6 +82,38 @@ class Solution {
             ans.add(temp);
         }
         return ans;
+    }
+}
+
+// 3. Next Permutation
+class Solution {
+    public void nextPermutation(int[] nums) {
+        for(int i = nums.length - 1; i >= 1; i--){
+            if(nums[i] > nums[i - 1]){
+                int t = i - 1;
+                int m = -1;
+                for(int j = nums.length - 1; j >= 1; j--){
+                    if(nums[j] > nums[t]){
+                        swap(nums, j, t);
+                        reverse(nums, t + 1, nums.length - 1);
+                        return;
+                    }
+                }
+            }
+        }
+        reverse(nums, 0, nums.length - 1);
+    }
+    
+    public void swap(int[] nums, int i, int j){
+        nums[i] = (nums[i] + nums[j]) - (nums[j] = nums[i]);
+    }
+    
+    public void reverse(int[] nums, int i, int j){
+        while(i <= j){
+            swap(nums, i, j);
+            i++;
+            j--;
+        }
     }
 }
 
