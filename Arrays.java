@@ -325,3 +325,43 @@ class Solution {
         return st.toArray(ans);
     }
 }
+
+// 9. Merge two sorted array without using extra space
+//time complexity O(n * m)
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int j = 0;
+        int k = 0;
+        if(n == 0)
+            return;
+        for(int i = 0; i < m; i++){
+            if(nums1[j] <= nums2[k]){
+                j++;
+                
+            }else{
+                swap(nums1, nums2, j, k);
+                j++;
+            }
+            
+        }
+        for(int i = m; i < n + m; i++){
+            nums1[i] = nums2[i - m];
+        }
+    }
+    
+    public void swap(int[] arr1, int arr2[], int i, int j){
+        //swap
+        arr1[i] = (arr1[i] + arr2[j]) - (arr2[j] = arr1[i]); 
+        
+        //fixing correct possition of first element of arr2
+        for(int k = 1; k < arr2.length; k++){
+            if(arr2[k - 1] < arr2[k]){
+                break;
+            }else{
+                int temp = arr2[k - 1];
+                arr2[k - 1] = arr2[k];
+                arr2[k] = temp;
+            }
+        }
+    }
+}
