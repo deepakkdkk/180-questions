@@ -365,3 +365,34 @@ class Solution {
         }
     }
 }
+
+//Time complexity O(n * log(n)) where n = sum of no. of elements of Array
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int gap = 0;
+        if((m + n) % 2 == 1){
+            gap = (m + n)/2 + 1;
+        }else{
+            gap = (m + n)/ 2;
+        }
+        for(int i = 0; i < n; i++){
+            nums1[m + i] = nums2[i];
+        }
+        while(gap > 0){
+            
+            for(int j = 0, k = gap; k < n + m; k++, j++){
+                if(nums1[j] <= nums1[k]){
+                    
+                }else{
+                    nums1[j] = (nums1[j] + nums1[k]) - (nums1[k] = nums1[j]);
+                }
+            }
+            if(gap == 1) break;
+            if(gap % 2 == 1){
+                gap = gap / 2 + 1;
+            }else{
+                gap = gap / 2 ;
+            }
+        }
+    }
+}
