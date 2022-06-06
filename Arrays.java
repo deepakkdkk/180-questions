@@ -304,3 +304,24 @@ class Solution {
       }
     }
 }
+
+// 8. Merge Overlapping integervals
+class Solution {
+    
+    public int[][] merge(int[][] arr) {
+        Arrays.sort(arr,(a, b) -> (a[0] - b[0]));
+        ArrayList<int[]> st = new ArrayList<>();
+        st.add(arr[0]);
+        for(int i = 1; i < arr.length; i++){
+            if(arr[i][0] > st.get(st.size() - 1)[1]){
+                st.add(arr[i]);
+            }else{
+                int[] temp = st.remove(st.size() - 1);
+                temp[1] = Math.max(temp[1], arr[i][1]);
+                st.add(temp);
+            }
+        }
+        int[][] ans = new int[st.size()][2];
+        return st.toArray(ans);
+    }
+}
