@@ -396,3 +396,119 @@ class Solution {
         }
     }
 }
+
+// 10. Find the duplicate Number
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int dup = 0;
+        for(int i = 0; i < nums.length; i++){
+            
+            int idx = nums[i];
+            if(nums[i] < 0){
+                idx = -nums[i];
+            }
+            if(nums[idx] < 0){
+                dup = idx;
+                break;
+            }else{
+                nums[idx] *= -1;
+            }
+        }
+        return dup;
+    }
+}
+
+// 11. Repeat and missing number (Set mismatch)
+public class Solution {
+    public int[] findErrorNums(int[] nums) {
+        int dup = 0;
+        for(int i = 0; i < nums.length; i++){
+            
+            int idx = nums[i];
+            if(nums[i] < 0){
+                idx = -nums[i];
+            }
+            if(nums[idx - 1] < 0){
+                dup = idx;
+                
+            }else{
+                nums[idx - 1] *= -1;
+            }
+        }
+        int miss = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] > 0){
+                miss = i + 1;
+            }
+        }
+        return new int[]{dup, miss};
+    }
+}
+
+// 12. Inversion of Array (Count inversion)
+class Solution
+{
+    // arr[]: Input Array
+    // N : Size of the Array arr[]
+    //Function to count inversions in the array.
+    public static long mergeSort(long[] nums, int si, int ei) {
+        if (si >= ei) {
+            return 0;
+        }
+        int mid = (si + ei) / 2;
+        long ans = 0;
+        ans += mergeSort(nums, si, mid);
+        ans += mergeSort(nums, mid + 1, ei);
+        ans += mergeArrays(nums, si, ei, mid);
+        return ans;
+    }
+
+    public static long mergeArrays(long[] nums, int si, int ei, int mid) {
+        int s1 = si;
+        int e1 = mid;
+        int s2 = mid + 1;
+        int e2 = ei;
+        long ans = 0;
+        long[] left = new long[e1 - s1 + 1];
+        for (int i = 0; i < left.length; i++) {
+            left[i] = nums[s1 + i];
+        }
+        long[] right = new long[e2 - s2 + 1];
+        for (int i = 0; i < right.length; i++) {
+            right[i] = nums[s2 + i];
+        }
+        int p1 = 0;// left
+        int p2 = 0;// right
+        int p = s1;// own
+        while (p1 != left.length && p2 != right.length) {
+            if (left[p1] <= right[p2]) {
+                nums[p] = left[p1];
+                p1++;
+            } else {
+                nums[p] = right[p2];
+                p2++;
+                ans += (left.length - p1);
+            }
+            p++;
+        }
+        while (p1 < left.length) {
+            nums[p] = left[p1];
+            p1++;
+            p++;
+        }
+        while (p2 < right.length) {
+            nums[p] = right[p2];
+            p2++;
+            p++;
+        }
+        return ans;
+    }
+
+    static long inversionCount(long arr[], long N)
+    {
+        // Your Code Here
+        long ans = mergeSort(arr, 0, arr.length - 1);
+        return ans;
+    }
+}
+
