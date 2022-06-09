@@ -672,3 +672,43 @@ class Solution {
     }
 }
 
+// 19. Two sum
+// nlogn+n
+
+public int[] twoSum(int[] nums, int target) {
+    int[][] mix = new int[nums.length][2];
+    for (int i = 0; i < nums.length; i++) {
+        mix[i][0] = nums[i];
+        mix[i][1] = i;
+    }
+    Arrays.sort(mix, (a, b) -> (a[0] - b[0]));
+    int si = 0;
+    int ei = nums.length - 1;
+    while (si <= ei) {
+        int sum = mix[si][0] + mix[ei][0];
+        if (sum == target) {
+            return new int[] { mix[si][1], mix[ei][1] };
+        } else if (sum < target) {
+            si++;
+        } else {
+            ei--;
+        }
+    }
+    return null;
+}
+
+// using hashmap
+
+    // n+n
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int ele = nums[i];
+            if (map.containsKey(target - ele)) {
+                return new int[] { map.get(target - ele), i };
+            }
+            map.put(ele, i);
+        }
+        return null;
+    }
+
