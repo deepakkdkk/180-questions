@@ -759,3 +759,37 @@ class Solution {
         return ans;
     }
 }
+
+// 21. Longest consecutive Sequence
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if(nums.length == 0){
+            return 0;
+        }
+        HashSet<Integer> hs = new HashSet<>();
+        for(int i = 0; i < nums.length; i++){
+            hs.add(nums[i]);
+        }
+        int max = 1;
+        for(int i = 0; i < nums.length; i++){
+            if(hs.contains(nums[i] - 1)){
+                
+            }else{
+                int count = 1;
+                int temp = nums[i];
+                hs.remove(temp);
+                while(hs.contains(temp + 1)){
+                    count += 1;
+                    
+                    hs.remove(temp + 1);
+                    temp = temp + 1;
+                    if(count > max){
+                        max = count;
+                    }
+                    
+                }
+            }
+        }
+        return max;
+    }
+}
