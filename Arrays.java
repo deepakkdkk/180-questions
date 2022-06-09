@@ -712,3 +712,50 @@ public int[] twoSum(int[] nums, int target) {
         return null;
     }
 
+// 20. 4 sum
+// T.c = O(n^3)
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        for(int i = 0; i < nums.length - 2; i++){
+            
+            for(int j = i + 1; j < nums.length - 1; j++){
+                
+                int tar = target - nums[i] - nums[j];
+                int low = j + 1;
+                int high = nums.length - 1;
+                while(low < high){
+                    int sum = nums[low] + nums[high];
+                    if(sum < tar){
+                        low++;
+                    }else if(sum > tar){
+                        high--;
+                    }else{
+                        List<Integer> temp = new ArrayList<>();
+                        temp.add(nums[i]);
+                        temp.add(nums[j]);
+                        temp.add(nums[low]);
+                        temp.add(nums[high]);
+                        ans.add(temp);
+                        low++;
+                        while(low < high && nums[low] == temp.get(2)){
+                            low++;
+                        }
+                        while(low < high && nums[high] == temp.get(3)){
+                            high--;
+                        }
+                    }
+                    
+                }
+                while(j + 1 < nums.length && nums[j + 1] == nums[j]){
+                    j++;
+                }
+            }
+            while(i < nums.length - 1 && nums[i + 1] == nums[i]){
+                i++;
+            }
+        }
+        return ans;
+    }
+}
