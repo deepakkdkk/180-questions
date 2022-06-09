@@ -512,3 +512,163 @@ class Solution
     }
 }
 
+// 13. Search a 2D matrix
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int r= matrix.length;
+        int c = matrix[0].length;
+        
+        int si = 0;
+        int ei = r * c - 1;
+        while(si <= ei){
+            int idx = (si + ei)/2;
+            int val = matrix[idx / c][idx % c];
+            if(val == target){
+                return true;
+            }else if(val < target){
+                si = idx + 1;
+            }else{
+                ei = idx - 1;
+            }
+        }
+        return false;
+    }
+}
+
+// 14. Pow(x, n)
+class Solution {
+    public double myPow(double x, int n) {
+        double ans = 1.0;
+        long exp = n;
+        if (n < 0){
+            exp = -1 * exp;
+        }
+        while(exp > 0){
+            if(exp % 2 == 1){
+                ans = ans * x;
+                exp = exp - 1;
+            }else{
+                x = x * x;
+                exp = exp / 2;
+            }
+        }
+        if(n < 0){
+            ans = (double)1.0 / (double)ans;
+        }
+        return ans;
+    }
+}
+
+// 15. Majority Element 1
+class Solution {
+    public int majorityElement(int[] nums) {
+        int freq = 0;
+        int ele = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(freq == 0){
+                ele = nums[i];
+                freq = 1;
+            }else if(nums[i] == ele){
+                freq++;
+                
+            }else{
+                freq--;
+            }
+        }
+        return ele;        
+    }
+}
+
+// 16. Majority element ii
+class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+        int f1 = 0;
+        int val1 = Integer.MIN_VALUE;
+        int f2 = 0;
+        int val2 = Integer.MIN_VALUE;
+        for (int ele : nums) {
+            if (ele == val1) {
+                f1++;
+            } else if (ele == val2) {
+                f2++;
+            } else if (f1 == 0) {
+                val1 = ele;
+                f1 = 1;
+            } else if (f2 == 0) {
+                val2 = ele;
+                f2 = 1;
+            } else {
+                f1--;
+                f2--;
+            }
+        }
+        // val1 and val2
+        int v1f = 0;
+        int v2f = 0;
+        for (int ele : nums) {
+            if (ele == val1) {
+                v1f++;
+            }
+            if (ele == val2) {
+                v2f++;
+            }
+        }
+        List<Integer> ans = new ArrayList<>();
+        if (v1f > nums.length / 3) {
+            ans.add(val1);
+        }
+        if (v2f > nums.length / 3) {
+            ans.add(val2);
+        }
+        return ans;
+    }
+}
+
+// 17. Grid Unique Paths
+  // Memoisation T = O(n * m) S.c = O(n * m)
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dir = {{1, 0}, {0, 1}};
+        int[][] maze = new int[m][n];
+        int[][] dp  = new int[m + 2][n + 2];
+        
+        return helper(maze, 1, 1, dir, dp);   
+        
+    }
+    
+    public int helper(int[][] maze, int m, int n, int[][] dir, int[][] dp){
+        if(m == maze.length && n == maze[0].length){
+            return 1;
+        }
+        if(dp[m][n] != 0){
+            return dp[m][n];
+        }
+        int count = 0;
+        for(int d = 0; d < dir.length; d++){
+            int nr = m + dir[d][0];
+            int nc  = n + dir[d][1];
+            if(nr >= 1 && nc >= 1 && nr <= maze.length && nc <= maze[0].length){
+                count += helper(maze, nr, nc, dir, dp);
+            }
+        }
+        
+        return dp[m][n] = count;
+    }
+}
+
+// Combination approach T = O(min(n, m)) , S.C = O(1)
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int N = (n - 1) + (m - 1); // total directions
+        int r = Math.min(n - 1,m - 1); // selection one direction how many times it would take to reach dest.
+        double ans = 1;
+        for(int i = 1; i <= r; i++){
+            ans = ans * (N - i + 1)/(i * 1.0);
+        }        
+        if(ans > (int)ans+0.5){
+             return (int)Math.ceil(ans);
+        }
+       return (int)ans;
+    }
+}
+
