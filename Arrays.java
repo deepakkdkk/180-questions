@@ -793,3 +793,34 @@ class Solution {
         return max;
     }
 }
+
+// 22. Largest subarray with 0 sum
+class GfG
+{
+    int maxLen(int arr[], int n)
+    {
+        // Your code here
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        
+        int sum = 0;
+        
+        int max = 0;
+        for(int i = 0; i < n; i++){
+            sum += arr[i];
+            if(sum == 0){
+                max = i + 1;
+            }else{
+                if(hm.containsKey(sum)){
+                    int val = i - hm.get(sum);
+                    if(val > max){
+                        max = val;
+                    }
+                }else{
+                    hm.put(sum, i);
+                }
+            }
+            
+        }
+        return max;
+    }
+}
