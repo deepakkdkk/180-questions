@@ -275,4 +275,156 @@ public class Solution {
     }
 }
 
-// 33. 
+// 33. Reverse a Linkedlist in a group of Size k
+// Approach 1 : Recursive  T.C = O(n), S.C = O(n/k) <- recursion stack space
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head == null || head.next == null || k == 1){
+            return head;
+        }
+        int t = k;
+        ListNode curr = head;
+        while(t-- > 1){
+            
+            curr = curr.next;
+            if(curr == null){
+                return head;
+            }
+        }
+        ListNode fhead = curr.next;
+        curr.next = null;
+        ListNode recAns = reverseKGroup(fhead, k);
+        ListNode revAns = reverseList(head);
+        head.next = recAns;
+        return revAns;
+        
+    }
+        public ListNode reverseList(ListNode head){
+            ListNode curr = head, prev = null, forw = null;
+            while(curr != null){
+                forw = curr.next;
+                curr.next = prev;
+                
+                prev = curr;
+                curr = forw;
+            }
+            return prev;
+        }  
+}
+
+// Approach 2 : iterative  T.C = O(n), S.C = O(1)
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head == null || head.next == null || k == 1){
+            return head;
+        }
+        
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode prev = dummy;
+        ListNode curr = dummy;
+        ListNode forw = dummy;
+        int count = 0;
+        while(curr.next != null){
+            curr = curr.next;
+            count++;
+        }
+        while(count >= k){
+            curr = prev.next;
+            forw = curr.next;
+            for(int i = 1; i < k; i++){ // k - 1 link reverse for k =3 , 2 link we are reversing 
+                curr.next = forw.next;
+                forw.next = prev.next;
+                prev.next = forw;
+                forw = curr.next;
+            }
+            prev = curr;
+            count -= k;
+        }
+        return dummy.next;
+    }
+}
+
+// 34. Palindrome linked list
+
+// Approach 1 : use extra space and reverse linked list and then iterate or (store in arraylist and check palindrome)
+// Approach 2 : T.C = O(n/2(finding mid node) + n / 2(reversing other half) + n / 2 (again iterating upto mid node)) = O(3n/2)
+// if linked list doesn't want to modify then again reverse it after mid.
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if(head == null || head.next == null){
+            return true;
+        }
+        
+        ListNode mid = mid(head);
+        ListNode rev = reverse(mid.next);
+        mid.next = rev;
+        ListNode first = head;
+        ListNode second = rev;
+        while(second != null && first.val == second.val){
+            second = second.next;
+            first = first.next;
+        }
+        if(second == null) return true;
+        return false;
+        
+    }
+    
+    public ListNode mid(ListNode head){
+        if(head == null || head.next == null) return head;
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast.next != null && fast.next.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+    
+    public ListNode reverse(ListNode head){
+        if(head == null || head.next == null) return head;
+        
+        ListNode prev = null;
+        ListNode curr = head;
+        while(curr != null){
+            ListNode forw = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = forw;
+        }
+        return prev;
+    }
+}
+
+// 35. Find the starting point of the loop of the linked list
+
+// Approach 1 : use hashset  T.C = O(n), S.C = O(n)
+// Approach 2 : using 2 point slow and fast , T.C = O(n), S.C = O(1)
+// slow covered distance = l1 + l2, fast covered distance = l1 + l2 + nC where C is no.of turns
+// using speed distance formula : 2 (l1 + l2) = l1 + l2 + nC , therefore l1 = nC - l2
+image.png
+
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        if (head == null || head.next == null)
+            return null;
+    
+        ListNode slow  = head;
+        ListNode fast  = head;
+        ListNode entry = head;
+
+        while (fast.next!=null && fast.next.next!=null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {                      // there is a cycle
+                while(slow != entry) {               // found the entry location
+                    slow  = slow.next;
+                    entry = entry.next;
+                }
+                return entry;
+            }
+        }
+        return null;       
+    }
+}
+
