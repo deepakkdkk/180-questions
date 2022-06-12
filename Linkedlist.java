@@ -453,7 +453,8 @@ public class Solution {
 // T.C = O(k^2 * x) where x is the avg no. of nodes in each main node, and main
 // node are k.
 // S.C = O(k) recursion stack space
-// my code
+
+// my code using recursion
 class GfG {
     Node flatten(Node root) {
         Node sans = helper(root);
@@ -466,6 +467,51 @@ class GfG {
         }
         Node node = helper(root.next);
         Node merge = mergeList(root, node);
+        return merge;
+    }
+
+    public Node mergeList(Node root1, Node root2) {
+        Node temp1 = root1;
+        Node temp2 = root2;
+        Node ans = new Node(-1);
+        Node fans = ans;
+        while (temp1 != null && temp2 != null) {
+            if (temp1.data <= temp2.data) {
+                ans.bottom = temp1;
+                ans = ans.bottom;
+                temp1 = temp1.bottom;
+            } else {
+                ans.bottom = temp2;
+                ans = ans.bottom;
+                temp2 = temp2.bottom;
+            }
+        }
+        if (temp1 != null) {
+            ans.bottom = temp1;
+        }
+        if (temp2 != null) {
+            ans.bottom = temp2;
+        }
+        return fans.bottom;
+    }
+
+}
+// my code using iteration
+class GfG {
+    Node flatten(Node root) {
+        Node sans = helper(root);
+        return sans;
+    }
+
+    public Node helper(Node root) {
+        if (root == null) {
+            return null;
+        }
+        Node merge = root;
+        while(root != null && root.next != null){
+             merge = mergeList(merge, root.next);
+              root = root.next;
+        }
         return merge;
     }
 
