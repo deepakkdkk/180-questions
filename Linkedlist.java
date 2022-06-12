@@ -1,11 +1,12 @@
 // 25. Reverse Linkedlist
 class Solution {
     public ListNode reverseList(ListNode head) {
-        if(head == null || head.next == null) return head;
-        
+        if (head == null || head.next == null)
+            return head;
+
         ListNode prev = null;
         ListNode curr = head;
-        while(curr != null){
+        while (curr != null) {
             ListNode forw = curr.next;
             curr.next = prev;
             prev = curr;
@@ -20,7 +21,7 @@ class Solution {
     public ListNode middleNode(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
-        while(fast != null && fast.next != null){
+        while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
@@ -31,30 +32,32 @@ class Solution {
 // 27. Merge two sorted list
 class Solution {
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        if(list1 == null) return list2;
-        if(list2 == null) return list1;
-        
+        if (list1 == null)
+            return list2;
+        if (list2 == null)
+            return list1;
+
         ListNode first = list1;
         ListNode second = list2;
         ListNode dummy = new ListNode(-1);
         ListNode ans = dummy;
-        while(first != null && second != null){
-            if(first.val <= second.val){
+        while (first != null && second != null) {
+            if (first.val <= second.val) {
                 ListNode fnext = first.next;
                 dummy.next = first;
                 dummy = dummy.next;
                 first = fnext;
-            }else{
+            } else {
                 ListNode snext = second.next;
                 dummy.next = second;
                 dummy = dummy.next;
                 second = snext;
             }
         }
-        if(first != null){
+        if (first != null) {
             dummy.next = first;
         }
-        if(second != null){
+        if (second != null) {
             dummy.next = second;
         }
         return ans.next;
@@ -64,18 +67,18 @@ class Solution {
 // 28. Remove nth node from end of the list
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        if(head == null){
+        if (head == null) {
             return null;
         }
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
         ListNode fast = dummy;
         ListNode slow = dummy;
-        while(n > 0){
+        while (n > 0) {
             fast = fast.next;
             n--;
         }
-        while(fast.next != null){
+        while (fast.next != null) {
             fast = fast.next;
             slow = slow.next;
         }
@@ -85,16 +88,18 @@ class Solution {
 }
 
 // 29. Add two numbers
-// time complexity = O(max(l1, l2))  S.C = O(max(l1, l2) + 1)
+// time complexity = O(max(l1, l2)) S.C = O(max(l1, l2) + 1)
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        if(l1 == null) return l2;
-        if(l2 == null) return l1;
-        
+        if (l1 == null)
+            return l2;
+        if (l2 == null)
+            return l1;
+
         int c = 0;
         ListNode dummy = new ListNode(-1);
         ListNode ans = dummy;
-        while(l1 != null && l2 != null){
+        while (l1 != null && l2 != null) {
             int sum = l1.val + l2.val + c;
             c = sum / 10;
             int rem = sum % 10;
@@ -104,27 +109,27 @@ class Solution {
             l1 = l1.next;
             l2 = l2.next;
         }
-        while(l1 != null){
+        while (l1 != null) {
             int sum = l1.val + c;
             c = sum / 10;
             int rem = sum % 10;
-            
+
             ListNode temp = new ListNode(rem);
             dummy.next = temp;
             dummy = dummy.next;
             l1 = l1.next;
         }
-        while(l2 != null){
+        while (l2 != null) {
             int sum = l2.val + c;
             c = sum / 10;
             int rem = sum % 10;
-            
+
             ListNode temp = new ListNode(rem);
             dummy.next = temp;
             dummy = dummy.next;
             l2 = l2.next;
         }
-        if(c > 0){
+        if (c > 0) {
             ListNode temp = new ListNode(c);
             dummy.next = temp;
             dummy = dummy.next;
@@ -147,13 +152,13 @@ class Solution {
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         ListNode slow = headA;
-        
-        while(slow != null){
+
+        while (slow != null) {
             ListNode fast = headB;
-            while(fast != null && fast != slow){
+            while (fast != null && fast != slow) {
                 fast = fast.next;
             }
-            if(fast == slow){
+            if (fast == slow) {
                 return fast;
             }
             slow = slow.next;
@@ -162,19 +167,20 @@ public class Solution {
     }
 }
 
-// Approach 2 : T.C = O(2 * m) generally due to hashset but in worst case T.C = O(m ^ 2), S.C = O(m)
+// Approach 2 : T.C = O(2 * m) generally due to hashset but in worst case T.C =
+// O(m ^ 2), S.C = O(m)
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        // Time complexity = O(m + n)  S.C = O(m or n)
+        // Time complexity = O(m + n) S.C = O(m or n)
         HashSet<ListNode> hs = new HashSet<>();
         ListNode slow = headA;
-        while(slow != null){
+        while (slow != null) {
             hs.add(slow);
             slow = slow.next;
         }
         ListNode fast = headB;
-        while(fast != null){
-            if(hs.contains(fast)){
+        while (fast != null) {
+            if (hs.contains(fast)) {
                 return fast;
             }
             fast = fast.next;
@@ -227,18 +233,18 @@ public class Solution {
 // Approach 4: T.C = O(2 * m) , S.C = O(1)
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        
-        if(headA == null || headB == null){
+
+        if (headA == null || headB == null) {
             return null;
         }
         ListNode d1 = headA;
         ListNode d2 = headB;
-        
-        while( d1 != d2){
+
+        while (d1 != d2) {
             d1 = d1 == null ? headB : d1.next;
             d2 = d2 == null ? headA : d2.next;
         }
-        
+
         return d1;
     }
 }
@@ -247,10 +253,12 @@ public class Solution {
 // Approach 1: T.C. = O(n) generally, S.C = O(n)
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        if(head == null || head.next == null) return false;
+        if (head == null || head.next == null)
+            return false;
         HashSet<ListNode> hs = new HashSet<>();
-        while(head != null){
-            if(hs.contains(head)) return true;
+        while (head != null) {
+            if (hs.contains(head))
+                return true;
             hs.add(head);
             head = head.next;
         }
@@ -261,11 +269,12 @@ public class Solution {
 // Approach 2 : T.C = O(n) , S.C = O(1)
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        if(head == null || head.next == null) return false;
+        if (head == null || head.next == null)
+            return false;
         ListNode slow = head;
         ListNode fast = head.next;
-        while(slow != fast){
-            if(fast == null || fast.next == null){
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
                 return false;
             }
             slow = slow.next;
@@ -276,18 +285,18 @@ public class Solution {
 }
 
 // 33. Reverse a Linkedlist in a group of Size k
-// Approach 1 : Recursive  T.C = O(n), S.C = O(n/k) <- recursion stack space
+// Approach 1 : Recursive T.C = O(n), S.C = O(n/k) <- recursion stack space
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        if(head == null || head.next == null || k == 1){
+        if (head == null || head.next == null || k == 1) {
             return head;
         }
         int t = k;
         ListNode curr = head;
-        while(t-- > 1){
-            
+        while (t-- > 1) {
+
             curr = curr.next;
-            if(curr == null){
+            if (curr == null) {
                 return head;
             }
         }
@@ -297,42 +306,43 @@ class Solution {
         ListNode revAns = reverseList(head);
         head.next = recAns;
         return revAns;
-        
+
     }
-        public ListNode reverseList(ListNode head){
-            ListNode curr = head, prev = null, forw = null;
-            while(curr != null){
-                forw = curr.next;
-                curr.next = prev;
-                
-                prev = curr;
-                curr = forw;
-            }
-            return prev;
-        }  
+
+    public ListNode reverseList(ListNode head) {
+        ListNode curr = head, prev = null, forw = null;
+        while (curr != null) {
+            forw = curr.next;
+            curr.next = prev;
+
+            prev = curr;
+            curr = forw;
+        }
+        return prev;
+    }
 }
 
-// Approach 2 : iterative  T.C = O(n), S.C = O(1)
+// Approach 2 : iterative T.C = O(n), S.C = O(1)
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        if(head == null || head.next == null || k == 1){
+        if (head == null || head.next == null || k == 1) {
             return head;
         }
-        
+
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
         ListNode prev = dummy;
         ListNode curr = dummy;
         ListNode forw = dummy;
         int count = 0;
-        while(curr.next != null){
+        while (curr.next != null) {
             curr = curr.next;
             count++;
         }
-        while(count >= k){
+        while (count >= k) {
             curr = prev.next;
             forw = curr.next;
-            for(int i = 1; i < k; i++){ // k - 1 link reverse for k =3 , 2 link we are reversing 
+            for (int i = 1; i < k; i++) { // k - 1 link reverse for k =3 , 2 link we are reversing
                 curr.next = forw.next;
                 forw.next = prev.next;
                 prev.next = forw;
@@ -347,8 +357,10 @@ class Solution {
 
 // 34. Palindrome linked list
 
-// Approach 1 : use extra space and reverse linked list and then iterate or (store in arraylist and check palindrome)
-// Approach 2 : T.C = O(n/2(finding mid node) + n / 2(reversing other half) + n / 2 (again iterating upto mid node)) = O(3n/2)
+// Approach 1 : use extra space and reverse linked list and then iterate or
+// (store in arraylist and check palindrome)
+// Approach 2 : T.C = O(n/2(finding mid node) + n / 2(reversing other half) + n
+// / 2 (again iterating upto mid node)) = O(3n/2)
 // if linked list doesn't want to modify then again reverse it after mid.
 class Solution {
     public boolean isPalindrome(ListNode head) {
@@ -398,33 +410,169 @@ class Solution {
 
 // 35. Find the starting point of the loop of the linked list
 
-// Approach 1 : use hashset  T.C = O(n), S.C = O(n)
+// Approach 1 : use hashset T.C = O(n), S.C = O(n)
 // Approach 2 : using 2 point slow and fast , T.C = O(n), S.C = O(1)
-// slow covered distance = l1 + l2, fast covered distance = l1 + l2 + nC where C is no.of turns
-// using speed distance formula : 2 (l1 + l2) = l1 + l2 + nC , therefore l1 = nC - l2
+// l1 is distance before cycle, and l2 is distance between cycle and meeting
+// point in circle.
+// slow covered distance = l1 + l2, fast covered distance = l1 + l2 + nC where C
+// is no.of turns
+// using speed distance formula : 2 (l1 + l2) = l1 + l2 + nC , therefore l1 = nC
+// - l2
 image.png
 
 public class Solution {
     public ListNode detectCycle(ListNode head) {
         if (head == null || head.next == null)
             return null;
-    
-        ListNode slow  = head;
-        ListNode fast  = head;
+
+        ListNode slow = head;
+        ListNode fast = head;
         ListNode entry = head;
 
-        while (fast.next!=null && fast.next.next!=null) {
+        while (fast.next != null && fast.next.next != null) {
             slow = slow.next;
             fast = fast.next.next;
-            if (slow == fast) {                      // there is a cycle
-                while(slow != entry) {               // found the entry location
-                    slow  = slow.next;
+            if (slow == fast) { // there is a cycle
+                while (slow != entry) { // found the entry location
+                    slow = slow.next;
                     entry = entry.next;
                 }
                 return entry;
             }
         }
-        return null;       
+        return null;
+    }
+}
+
+// 36. Flattening a linked list (GFG)
+
+// Approach : merging 2 list and then merge it with other one by one
+// Using Priority queue is not good because we have to only flatten and queue
+// will take extra space because we can't handle pointers.
+
+// T.C = O(k^2 * x) where x is the avg no. of nodes in each main node, and main
+// node are k.
+// S.C = O(k) recursion stack space
+// my code
+class GfG {
+    Node flatten(Node root) {
+        Node sans = helper(root);
+        return sans;
+    }
+
+    public Node helper(Node root) {
+        if (root == null) {
+            return null;
+        }
+        Node node = helper(root.next);
+        Node merge = mergeList(root, node);
+        return merge;
+    }
+
+    public Node mergeList(Node root1, Node root2) {
+        Node temp1 = root1;
+        Node temp2 = root2;
+        Node ans = new Node(-1);
+        Node fans = ans;
+        while (temp1 != null && temp2 != null) {
+            if (temp1.data <= temp2.data) {
+                ans.bottom = temp1;
+                ans = ans.bottom;
+                temp1 = temp1.bottom;
+            } else {
+                ans.bottom = temp2;
+                ans = ans.bottom;
+                temp2 = temp2.bottom;
+            }
+        }
+        if (temp1 != null) {
+            ans.bottom = temp1;
+        }
+        if (temp2 != null) {
+            ans.bottom = temp2;
+        }
+        return fans.bottom;
+    }
+
+}
+
+// Striver code
+class GfG {
+    Node mergeTwoLists(Node a, Node b) {
+
+        Node temp = new Node(0);
+        Node res = temp;
+
+        while (a != null && b != null) {
+            if (a.data < b.data) {
+                temp.bottom = a;
+                temp = temp.bottom;
+                a = a.bottom;
+            } else {
+                temp.bottom = b;
+                temp = temp.bottom;
+                b = b.bottom;
+            }
+        }
+
+        if (a != null)
+            temp.bottom = a;
+        else
+            temp.bottom = b;
+        return res.bottom;
+
+    }
+
+    Node flatten(Node root) {
+
+        if (root == null || root.next == null)
+            return root;
+
+        // recur for list on right
+        root.next = flatten(root.next);
+
+        // now merge
+        root = mergeTwoLists(root, root.next);
+
+        // return the root
+        // it will be in turn merged with its left
+        return root;
+    }
+}
+
+// Approach 2: using priority queue T.C = O(number of nodes), S.C = O(k) where k
+// = main nodes means first nodes of all list
+class NodeComparator implements Comparator<Node> {
+
+    // Overriding compare()method of Comparator
+    // for descending order of cgpa
+    public int compare(Node s1, Node s2) {
+        if (s1.data > s2.data)
+            return 1;
+        else if (s1.data < s2.data)
+            return -1;
+        return 0;
+    }
+}
+
+class GfG {
+    Node flatten(Node root) {
+        PriorityQueue<Node> pq = new PriorityQueue<Node>(new NodeComparator());
+        while (root != null) {
+            pq.add(root);
+            root = root.next;
+        }
+        Node ans = new Node(-1);
+        Node fans = ans;
+        while (pq.size() > 0) {
+            Node temp = pq.poll();
+            ans.bottom = temp;
+            ans = ans.bottom;
+            Node t = temp.bottom;
+            if (t != null)
+                pq.add(t);
+        }
+        return fans.bottom;
     }
 }
 
