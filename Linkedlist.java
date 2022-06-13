@@ -622,3 +622,133 @@ class GfG {
     }
 }
 
+// 37. Rotate list
+// Approach 1: brute force T.C = O(k*n) becuase add last node in first in each traversal, S.C = O(1)
+// Approach 2: find modulus then subtrace from length of list T.C = O(n), S.C = O(1)
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || head.next == null || k == 0)
+            return head;
+        ListNode temp = head;
+        int count = 1;
+        while(temp.next != null){
+            temp = temp.next;
+            count++;
+        }
+        int rem = k % count;
+        if(rem == 0)
+            return head;
+        ListNode t = head;
+        ListNode p = null;
+        int rev = count - rem;
+        while(rev > 0){
+           p = t;
+           t = t.next; 
+           rev--;
+        }
+        p.next = null;
+        temp.next = head;
+        return t;
+        
+    }
+}
+
+// 38. Clone a linked list with random and next pointer
+// Approach 1: HashMap using recursion T.C = O(N), S.C = O(n + n) recursion space + hashmap
+
+class Solution {
+    HashMap<Node, Node> visitedHash = new HashMap<Node, Node>();
+   
+     public Node copyRandomList(Node head) {
+   
+       if (head == null) {
+         return null;
+       }
+   
+       if (visitedHash.containsKey(head)) {
+         return visitedHash.get(head);
+       }
+   
+       // Create a new node with the value same as old node. (i.e. copy the node)
+       Node node = new Node(head.val, null, null);
+   
+       // Save this value in the hash map. This is needed since there might be
+       // loops during traversal due to randomness of random pointers and this would help us avoid
+       // them.
+       visitedHash.put(head, node);
+   
+       // Recursively copy the remaining linked list starting once from the next pointer and then from
+       // the random pointer.
+       // Thus we have two independent recursive calls.
+       // Finally we update the next and random pointers for the new node created.
+       node.next = copyRandomList(head.next);
+       node.random = copyRandomList(head.random);
+   
+       return node;
+     
+           
+       }
+   }
+
+   // Approach 2 : HashMap without recursion T.C = O(n), S.C = O(n)
+   class Solution {
+    public Node copyRandomList(Node head) {
+        if(head == null) return head;
+        HashMap<Node, Node> hm = new HashMap<>();
+        
+        Node curr = head;
+        while(curr != null){
+            hm.put(curr, new Node(curr.val));
+            curr = curr.next;
+        }
+        curr = head;
+        
+        while(curr != null){
+            Node temp = hm.get(curr);
+            temp.next = hm.get(curr.next);
+            temp.random = hm.get(curr.random);
+            curr = curr.next;
+        }
+        return hm.get(head);
+        
+        
+    }
+}
+
+// Approach 3 : iterative without using space , T.C = O(n), S.C = O(1) because deep copy is allowed
+class Solution {
+    public Node copyRandomList(Node head) {
+        if(head == null) return null;
+        
+        Node curr = head;
+        Node forw = head;
+        while(curr != null){
+            forw = curr.next;
+            Node copy = new Node(curr.val);
+            curr.next = copy;
+            copy.next = forw;
+            curr = forw;
+        }
+        curr = head;
+        while(curr != null){
+            if(curr.random != null){
+                curr.next.random = curr.random.next;
+            }
+            curr = curr.next.next;
+        }
+        Node dummy = new Node(-1);
+        Node ans = dummy;
+        forw = head;
+        curr = head;
+        while(curr != null){
+            forw = curr.next.next;
+            dummy.next = curr.next;
+            curr.next = forw;
+            dummy = dummy.next;
+            curr = curr.next;
+        }
+        
+        return ans.next;
+    }
+}
+
