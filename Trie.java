@@ -1,3 +1,72 @@
+// count Distinct substring
+// T.C = O(n ^ 2) (Coding ninjas) we optimized space using trie
+public class Solution 
+{
+    static class Node{
+        Node[] links = new Node[26];
+        boolean flag = false;
+        Node(){
+            
+        }
+        
+        boolean containsKey(char ch){
+            return links[ch - 'a'] != null;
+        }
+        Node get(char ch){
+            return links[ch - 'a'];
+        }
+        void put(char ch, Node node){
+            links[ch - 'a'] = node;
+        }
+        
+        void setEnd(){
+            flag = true;
+        }
+    }
+	public static int countDistinctSubstrings(String s) 
+	{
+		//	  Write your code here.
+        Node root = new Node();
+        int n = s.length();
+        int count = 0;
+        for(int i = 0; i < n; i++){
+            Node node = root;
+            for(int j = i; j < s.length(); j++){
+                if(!node.containsKey(s.charAt(j))){
+                    node.put(s.charAt(j), new Node());
+                    count++;
+                }
+                node = node.get(s.charAt(j));
+            }
+        }
+        return count + 1;
+	}
+}
+
+//Power set (GFG)
+// T.C = O(2^n * n)
+class Solution
+{
+    public List<String> AllPossibleStrings(String s)
+    {
+        // Code here
+        List<String> ans = new ArrayList<>();
+        int n = s.length();
+        for(int i = 1; i < (int)(Math.pow(2, n)); i++){
+            StringBuilder sb = new StringBuilder();
+            for(int j = 0; j < n; j++){
+                if((i & (1 << j)) != 0){
+                    sb.append(s.charAt(j));
+                }
+            }
+            ans.add(sb.toString());
+        }
+        Collections.sort(ans);
+        return ans;
+    }
+}
+
+
 // Maximum XOR of two element in an array
 class Solution {
     //T.C = (first array)O(n * 32) + (second array)O(m * 32)  but we cannot specify space complexity because collision occurst most here.
